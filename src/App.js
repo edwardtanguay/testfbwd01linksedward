@@ -7,15 +7,14 @@ function App() {
 	const [links, setLinks] = useState([]);
 
 	useEffect(() => {
-		let initialLinks = [];
 		feeds.forEach(feed => {
 			(async () => {
 				const response = await fetch(feed.linksUrl);
-				const data = await response.json();
-				initialLinks = [...initialLinks, ...data];
+				const links = await response.json();
+				links.forEach(link => link.origin = feed.name);
+				setLinks(n => [...n, ...links]);
 			})();
-		})
-		setLinks(initialLinks);
+		});
 	}, [])
 
 	return (
@@ -24,7 +23,7 @@ function App() {
 			<ul>
 				{links.map((link, index) => {
 					return (
-						<li key={index}><a target="_blank" href={link.url} rel="noreferrer">{link.title}</a></li>
+						<li key={index}><a target="_blank" href={link.url} rel="noreferrer">{link.title}</a> (from {link.origin})</li>
 					)
 				})}
 			</ul>
