@@ -7,7 +7,7 @@ function App() {
 
 	useEffect(() => {
 		(async () => {
-			const response = await fetch('https://raw.githubusercontent.com/edwardtanguay/testfbwd01linksedward/main/src/data/links.json');
+			const response = await fetch('https://raw.githubusercontent.com/edwardtanguay/testfbwd01linksedward/main/src/data/links.json?rand=832748334322');
 			const data = await response.json();
 			console.log(data);
 			setLinks(data);
