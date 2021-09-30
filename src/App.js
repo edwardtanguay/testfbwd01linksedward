@@ -1,17 +1,21 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.scss';
+import feeds from './data/feeds.json';
 
 function App() {
 
 	const [links, setLinks] = useState([]);
 
 	useEffect(() => {
-		(async () => {
-			const response = await fetch('https://raw.githubusercontent.com/edwardtanguay/testfbwd01linksedward/main/src/data/links.json?rand=832748334322');
-			const data = await response.json();
-			console.log(data);
-			setLinks(data);
-		})();
+		let initialLinks = [];
+		feeds.forEach(feed => {
+			(async () => {
+				const response = await fetch(feed.linksUrl);
+				const data = await response.json();
+				initialLinks = [...initialLinks, ...data];
+			})();
+		})
+		setLinks(initialLinks);
 	}, [])
 
 	return (
